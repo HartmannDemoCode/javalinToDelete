@@ -1,0 +1,14 @@
+GET http://localhost:7007/person
+
+###
+
+GET http://localhost:7007/person/1
+Accept: application/json
+Content-Type: application/json
+
+###
+GET http://localhost:7007/person/query-param-demo?name=Thomas&age=30
+
+###
+GET http://localhost:7007/person/header-demo
+X-myHeader: myHeaderValue
