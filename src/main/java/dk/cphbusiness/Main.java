@@ -11,7 +11,7 @@ public class Main {
 
         Javalin app = Javalin
                 .create()
-                .start(7008)
+                .start(7007)
                 .get("/today", ctx -> ctx.result(LocalDate.now().toString()))
                 .get("/hello", ctx -> ctx.result("Hello World"))
                 .get("/hello2", new Handler(){

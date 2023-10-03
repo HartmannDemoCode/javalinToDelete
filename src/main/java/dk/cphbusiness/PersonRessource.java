@@ -2,6 +2,7 @@ package dk.cphbusiness;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import io.javalin.Javalin;
 import io.javalin.apibuilder.EndpointGroup;
 import lombok.*;
@@ -16,8 +17,18 @@ public class PersonRessource {
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static void main(String[] args) {
+
         Javalin app = Javalin.create().start(7007);
         app.routes(getPersonRessource());
+        app.error(404, ctx -> {
+            ctx.result("404 - Not found");
+        });
+        app.exception(Exception.class, (e, ctx) -> {
+            ctx.status(500);
+            JsonObject exception = new JsonObject();
+            exception.addProperty("msg", e.getMessage());
+            ctx.json(gson.toJson(exception));
+        });
     }
 
     public static EndpointGroup getPersonRessource(){
@@ -25,7 +36,7 @@ public class PersonRessource {
 
         return ()->{
             path("/person", ()->{
-                get("/", pc.getAllPersons());
+                    get("/", pc.getAllPersons());
                 get("/query-param-demo/", ctx->{
                     String name = ctx.queryParam("name");
                     int age = Integer.parseInt(ctx.queryParam("age"));

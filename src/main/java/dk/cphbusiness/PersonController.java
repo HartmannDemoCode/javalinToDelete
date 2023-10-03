@@ -1,6 +1,7 @@
 package dk.cphbusiness;
 
 import io.javalin.apibuilder.EndpointGroup;
+import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import lombok.*;
 
@@ -14,8 +15,19 @@ public class PersonController {
         persons.put(2,new Person("Hans","Hansen", 1990));
         persons.put(3,new Person("Hans","Hansen", 1990));
     }
-    public Handler getAllPersons(){
-       return ctx -> ctx.json(persons);
+    public Handler getAllPersons() {
+
+        boolean isExceptionTest= true;
+
+        return new Handler() {
+            @Override
+            public void handle(Context ctx) throws Exception {
+                if(isExceptionTest)
+                    throw new RuntimeException("Something went wrong"); // To show the use of app.exception() in PersonRessource file
+                else   // To show the use of app.error() in PersonRessource file
+                    ctx.json(persons);
+            }
+        };
     }
     public Handler getPersonById(){
         return ctx -> {
