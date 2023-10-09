@@ -2,7 +2,7 @@ GET http://localhost:7007/person
 
 ###
 
-GET http://localhost:7007/person/4
+GET http://localhost:7007/person/3
 Accept: application/json
 Content-Type: application/json
 

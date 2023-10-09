@@ -17,8 +17,11 @@ public class PersonRessource {
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static void main(String[] args) {
+        runServer(7007);
+    }
 
-        Javalin app = Javalin.create().start(7007);
+    public static void runServer(int port){
+        Javalin app = Javalin.create().start(port);
         app.routes(getPersonRessource());
         app.error(404, ctx -> {
             ctx.result("404 - Not found");
@@ -37,17 +40,18 @@ public class PersonRessource {
         return ()->{
             path("/person", ()->{
                     get("/", pc.getAllPersons());
-                get("/query-param-demo/", ctx->{
-                    String name = ctx.queryParam("name");
-                    int age = Integer.parseInt(ctx.queryParam("age"));
-                    ctx.json("{\"name\": \""+name+"\", \"age\": "+age+"}");
-                });
-                get("/header-demo", ctx->{
-                    String header = ctx.header("X-myHeader");
-                    ctx.json("{\"header\": \""+header+"\"}");
-                });
-               // PATH DEMO
-                get("/{id}", pc.getPersonById());
+                    get("/{id}", pc.getPersonById());
+//                get("/query-param-demo/", ctx->{
+//                    String name = ctx.queryParam("name");
+//                    int age = Integer.parseInt(ctx.queryParam("age"));
+//                    ctx.json("{\"name\": \""+name+"\", \"age\": "+age+"}");
+//                });
+//                get("/header-demo", ctx->{
+//                    String header = ctx.header("X-myHeader");
+//                    ctx.json("{\"header\": \""+header+"\"}");
+//                });
+//               // PATH DEMO
+//                get("/{id}", pc.getPersonById());
             });
         };
     }
