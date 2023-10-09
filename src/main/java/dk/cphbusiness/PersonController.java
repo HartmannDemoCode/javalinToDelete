@@ -11,19 +11,19 @@ import java.util.Map;
 public class PersonController {
     Map<Integer,Person> persons = new HashMap();
     public PersonController(){
-        persons.put(1,new Person("Hans","Hansen", 1990));
-        persons.put(2,new Person("Hans","Hansen", 1990));
-        persons.put(3,new Person("Hans","Hansen", 1990));
+        persons.put(1,new Person("Hans","Hansen", 1970));
+        persons.put(2,new Person("Peter","Hansen", 1990));
+        persons.put(3,new Person("Helle","Hansen", 1980));
     }
     public Handler getAllPersons() {
 
-        boolean isExceptionTest= true;
+        boolean isExceptionTest= false;
 
         return new Handler() {
             @Override
             public void handle(Context ctx) throws Exception {
                 if(isExceptionTest)
-                    throw new RuntimeException("Something went wrong"); // To show the use of app.exception() in PersonRessource file
+                    throw new Exception("Something went wrong"); // To show the use of app.exception() in PersonRessource file
                 else   // To show the use of app.error() in PersonRessource file
                     ctx.json(persons);
             }
