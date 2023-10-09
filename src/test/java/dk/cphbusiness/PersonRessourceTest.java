@@ -1,7 +1,11 @@
 package dk.cphbusiness;
 
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.jupiter.api.Assertions.*;
 import static io.restassured.RestAssured.given;
+
+import dk.cphbusiness.dto.PersonDTO;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.Matchers.*;
@@ -59,10 +63,27 @@ class PersonRessourceTest {
     void testAllBody2(){
         // given, when, then
         given()
+//                .log().all()
                 .when()
                 .get(BASE_URL + "/person")
-                .prettyPeek()
                 .then()
-                .body();
+                .log().body()
+//                .body("[0].firstName", is("Hans"));
+                .body("$", hasItems(hasEntry("firstName","Peter")));
+
+        ;
+    }
+    @Test
+    @DisplayName("Json PATH and DTOs")
+    void testAllBody3(){
+        Response response = given()
+                .when()
+                .get(BASE_URL + "/person");
+        PersonDTO[] persons = response
+                .jsonPath()
+                .getObject("$", PersonDTO[].class);
+        assertTrue(persons.length == 3);
+
+
     }
 }
