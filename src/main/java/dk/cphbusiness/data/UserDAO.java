@@ -34,6 +34,8 @@ public class UserDAO implements ISecurityDAO {
                     Role found = em.find(Role.class, role.getName());
                     if(found==null) {
                         em.persist(role);
+                    }else{
+                        role = found;
                     }
                 });
             em.persist(user);
@@ -45,8 +47,8 @@ public class UserDAO implements ISecurityDAO {
     public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
         userDAO.setEmf(HibernateConfig.getEntityManagerFactory());
-        User user = new User("user3", "test123");
-        user.setRoles(Set.of(new Role("user")));
+        User user = new User("user", "test123");
+        user.addRole(new Role("user"));
         user = userDAO.createUser(user);
         System.out.println(user);
     }

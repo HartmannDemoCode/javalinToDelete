@@ -5,14 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @Table(name = "users")
 public class User {
@@ -25,7 +26,26 @@ public class User {
                     @JoinColumn(name = "role_name", referencedColumnName = "name") } )
     Set<Role> roles = new HashSet<>();
     public User(String username, String password) {
+        String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
         this.username = username;
-        this.password = password;
+        this.password = hashed;
+    }
+    public boolean verifyPassword(String pw){
+        return BCrypt.checkpw(pw, this.password);
+    }
+    public void addRole(Role role){
+        roles.add(role);
+        role.getUsers().add(this);
+    }
+    public void removeRole(Role role){
+        roles.remove(role);
+        role.getUsers().remove(this);
+    }
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", roles=" + roles.stream().map(role->role.getName()).collect(Collectors.toSet()).toString() +
+                '}';
     }
 }
