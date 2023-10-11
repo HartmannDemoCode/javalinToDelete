@@ -30,6 +30,10 @@ public class User {
         this.username = username;
         this.password = hashed;
     }
+    public User(String username, Set<Role> roles){
+        this.username = username;
+        this.roles = roles;
+    }
     public String getRolesAsString(){
         return roles.stream().map(role->role.getName()).collect(Collectors.toSet()).toString();
     }

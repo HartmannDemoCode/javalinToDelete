@@ -21,3 +21,7 @@ Content-Type: application/json
     "username": "user",
     "password": "test123"
     }
+
+###
+GET http://localhost:7007/protected/demo
+Authorization: "Baerer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUaG9tYXMgSGFydG1hbm4iLCJzdWIiOiJ1c2VyIiwiZXhwIjoxNjk3MDIxODAwLCJyb2xlcyI6Ilt1c2VyXSIsInVzZXJuYW1lIjoidXNlciJ9.-bDAz_wMLzFosC8v_ZxScUwog03ulJtmQNtlOCnqjCQ"
