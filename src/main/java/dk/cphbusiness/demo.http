@@ -12,3 +12,12 @@ GET http://localhost:7007/person/query-param-demo?name=Thomas&age=30
 ###
 GET http://localhost:7007/person/header-demo
 X-myHeader: myHeaderValue
+###
+POST http://localhost:7007/auth/login
+Accept: application/json
+Content-Type: application/json
+
+    {
+    "username": "user",
+    "password": "test123"
+    }

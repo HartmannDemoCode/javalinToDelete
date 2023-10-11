@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static io.restassured.RestAssured.given;
 
 import dk.cphbusiness.dto.PersonDTO;
+import dk.cphbusiness.rest.controllers.PersonRessource;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 

@@ -2,6 +2,7 @@ package dk.cphbusiness.data;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.Set;
 
@@ -13,6 +14,7 @@ public class UserDAO implements ISecurityDAO {
     public static ISecurityDAO getInstance() {
         if(securityDAO == null) {
             securityDAO = new UserDAO();
+            emf = HibernateConfig.getEntityManagerFactory();
         }
         return securityDAO;
     }
@@ -22,7 +24,11 @@ public class UserDAO implements ISecurityDAO {
     @Override
     public User getUser(String username) {
         try(EntityManager em = emf.createEntityManager()){
-            return em.find(User.class, username);
+            User found = em.find(User.class, username);
+            if(found==null)
+                throw new EntityNotFoundException("No user found with username: "+username);
+            found.getRoles().size();
+            return found;
         }
     }
 
@@ -43,14 +49,16 @@ public class UserDAO implements ISecurityDAO {
             return user;
         }
     }
-
     public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
         userDAO.setEmf(HibernateConfig.getEntityManagerFactory());
-        User user = new User("user", "test123");
-        user.addRole(new Role("user"));
-        user = userDAO.createUser(user);
-        System.out.println(user);
+//        User user = new User("user", "test123");
+//        user.addRole(new Role("user"));
+//        user = userDAO.createUser(user);
+//        System.out.println(user);
+        System.out.println(userDAO.getUser("user"));
+        if(userDAO.authenticateUser("user", "test123")) System.out.println("User authenticated");
+        else System.out.println("User not authenticated");
     }
 
     @Override
@@ -62,8 +70,7 @@ public class UserDAO implements ISecurityDAO {
 
     @Override
     public boolean authenticateUser(String username, String password) {
-        //return false;
-
-        throw new UnsupportedOperationException("Not implemented yet");
+        User user = getUser(username);
+        return user.verifyPassword(password);
     }
 }

@@ -30,6 +30,9 @@ public class User {
         this.username = username;
         this.password = hashed;
     }
+    public String getRolesAsString(){
+        return roles.stream().map(role->role.getName()).collect(Collectors.toSet()).toString();
+    }
     public boolean verifyPassword(String pw){
         return BCrypt.checkpw(pw, this.password);
     }
@@ -45,7 +48,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
-                ", roles=" + roles.stream().map(role->role.getName()).collect(Collectors.toSet()).toString() +
+                ", roles=" + getRolesAsString() +
                 '}';
     }
 }

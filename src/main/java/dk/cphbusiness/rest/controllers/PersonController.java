@@ -1,4 +1,4 @@
-package dk.cphbusiness;
+package dk.cphbusiness.rest.controllers;
 
 import dk.cphbusiness.dto.PersonDTO;
 import io.javalin.apibuilder.EndpointGroup;

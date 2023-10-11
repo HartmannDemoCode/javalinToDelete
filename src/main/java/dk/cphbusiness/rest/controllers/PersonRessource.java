@@ -1,14 +1,10 @@
-package dk.cphbusiness;
+package dk.cphbusiness.rest.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import io.javalin.Javalin;
 import io.javalin.apibuilder.EndpointGroup;
-import lombok.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
