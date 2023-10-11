@@ -16,9 +16,11 @@ import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import dk.cphbusiness.data.Role;
+import io.javalin.security.RouteRole;
 
 
 public class SecurityController implements ISecurity {
@@ -37,7 +39,7 @@ public class SecurityController implements ISecurity {
     }
 
     @Override
-    public Handler authorize() {
+    public Handler authenticate() {
         // Purpose: before filter -> Check for Authorization header, find user inside the token, forward the ctx object with username on attribute
         ObjectNode returnObject = objectMapper.createObjectNode();
         return (ctx) -> {
@@ -60,6 +62,22 @@ public class SecurityController implements ISecurity {
                 throw new RuntimeException("Cannot authenticate");
             }
         };
+    }
+    @Override
+    public boolean authorize(String username, Set<String> allowedRoles) {
+        // Called from the ApplicationConfig.setSecurityRoles
+
+        User user = securityDAO.getUser(username);
+        System.out.println("USER FROM TOKEN: "+user+" roles: "+user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()).toString());
+        AtomicBoolean hasAccess = new AtomicBoolean(false); // Since we update this in a lambda expression, we need to use an AtomicBoolean
+        if (user != null) {
+            user.getRoles().stream().forEach(role -> {
+                if (allowedRoles.contains(role.getName().toUpperCase())) {
+                    hasAccess.set(true);
+                }
+            });
+        }
+        return hasAccess.get();
     }
 
     private User verifyToken(String token) throws Exception {

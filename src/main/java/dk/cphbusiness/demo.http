@@ -23,5 +23,11 @@ Content-Type: application/json
     }
 
 ###
-GET http://localhost:7007/protected/demo
-Authorization: "Baerer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUaG9tYXMgSGFydG1hbm4iLCJzdWIiOiJ1c2VyIiwiZXhwIjoxNjk3MDIxODAwLCJyb2xlcyI6Ilt1c2VyXSIsInVzZXJuYW1lIjoidXNlciJ9.-bDAz_wMLzFosC8v_ZxScUwog03ulJtmQNtlOCnqjCQ"
+
+GET http://localhost:7007/protected/user_role
+Authorization: "Baerer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUaG9tYXMgSGFydG1hbm4iLCJzdWIiOiJ1c2VyIiwiZXhwIjoxNjk3MDI0ODIyLCJyb2xlcyI6Ilt1c2VyXSIsInVzZXJuYW1lIjoidXNlciJ9.NKRBmcbxZlK6HcglLgGLXTZ-lhOKFmTOLS5uvE4wD-g"
+
+###
+
+GET http://localhost:7007/protected/admin_role
+Authorization: "Baerer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUaG9tYXMgSGFydG1hbm4iLCJzdWIiOiJ1c2VyIiwiZXhwIjoxNjk3MDI0ODIyLCJyb2xlcyI6Ilt1c2VyXSIsInVzZXJuYW1lIjoidXNlciJ9.NKRBmcbxZlK6HcglLgGLXTZ-lhOKFmTOLS5uvE4wD-g"
